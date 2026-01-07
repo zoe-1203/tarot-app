@@ -89,7 +89,7 @@ interface ImageItem {
   id: string;
   file: File;
   previewUrl: string;
-  status: 'pending' | 'processing' | 'done' | 'error';
+  status: 'uploaded' | 'pending' | 'processing' | 'done' | 'error';
   results?: VisionResponse;
   error?: string;
 }
@@ -203,8 +203,10 @@ function MultiImageUploader({
         return <span className="text-blue-500 animate-spin">◌</span>;
       case 'error':
         return <span className="text-red-500">✕</span>;
-      default:
-        return <span className="text-gray-400">○</span>;
+      case 'pending':
+        return <span className="text-amber-500">◌</span>;
+      default: // uploaded
+        return <span className="text-gray-400">✓</span>;
     }
   };
 
@@ -216,8 +218,10 @@ function MultiImageUploader({
         return '识别中...';
       case 'error':
         return '失败';
-      default:
-        return '等待中';
+      case 'pending':
+        return '等待识别中';
+      default: // uploaded
+        return '已上传';
     }
   };
 
@@ -903,7 +907,7 @@ export default function VisionPage() {
         id: generateId(),
         file: finalFile,
         previewUrl: URL.createObjectURL(finalFile),
-        status: 'pending',
+        status: 'uploaded',
       });
     }
 
@@ -940,9 +944,11 @@ export default function VisionPage() {
     setLoading(true);
     setError('');
 
-    // 重置未完成图片的状态
+    // 将 uploaded 状态改为 pending（等待识别中）
     setImages(prev => prev.map(img =>
-      img.status === 'done' ? img : { ...img, status: 'pending' as const, error: undefined }
+      img.status === 'uploaded' || img.status === 'error'
+        ? { ...img, status: 'pending' as const, error: undefined }
+        : img
     ));
 
     // 逐张处理
@@ -1176,6 +1182,8 @@ export default function VisionPage() {
                       ? 'border-red-200 bg-red-50/30'
                       : img.status === 'processing'
                       ? 'border-blue-200 bg-blue-50/30'
+                      : img.status === 'pending'
+                      ? 'border-amber-200 bg-amber-50/30'
                       : 'border-gray-200 bg-gray-50/30'
                   }`}
                 >
@@ -1203,6 +1211,8 @@ export default function VisionPage() {
                               ? 'bg-red-100 text-red-700'
                               : img.status === 'processing'
                               ? 'bg-blue-100 text-blue-700'
+                              : img.status === 'pending'
+                              ? 'bg-amber-100 text-amber-700'
                               : 'bg-gray-100 text-gray-600'
                           }`}
                         >
@@ -1212,7 +1222,9 @@ export default function VisionPage() {
                             ? '失败'
                             : img.status === 'processing'
                             ? '识别中...'
-                            : '等待中'}
+                            : img.status === 'pending'
+                            ? '等待识别中'
+                            : '已上传'}
                         </span>
                       </div>
 
@@ -1271,15 +1283,31 @@ export default function VisionPage() {
                                   ))}
                                 </div>
                               )}
+
+                              {/* 查看原始响应 */}
+                              {result.rawResponse && (
+                                <details className="mt-3">
+                                  <summary className="cursor-pointer text-xs text-indigo-600 hover:text-indigo-700">
+                                    查看原始响应
+                                  </summary>
+                                  <pre className="mt-2 p-2 bg-gray-50 rounded text-xs overflow-auto max-h-32 whitespace-pre-wrap text-gray-700">
+                                    {result.rawResponse}
+                                  </pre>
+                                </details>
+                              )}
                             </div>
                           ))}
                         </div>
                       )}
 
-                      {/* 等待/处理中状态 */}
-                      {(img.status === 'pending' || img.status === 'processing') && (
+                      {/* 等待/处理中/已上传状态 */}
+                      {(img.status === 'uploaded' || img.status === 'pending' || img.status === 'processing') && (
                         <div className="text-sm text-gray-500">
-                          {img.status === 'processing' ? '正在识别...' : '等待识别'}
+                          {img.status === 'processing'
+                            ? '正在识别...'
+                            : img.status === 'pending'
+                            ? '等待识别中'
+                            : '已上传，等待开始识别'}
                         </div>
                       )}
                     </div>
