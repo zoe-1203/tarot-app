@@ -790,6 +790,83 @@ async function fileToBase64(file: File): Promise<string> {
   });
 }
 
+// 图片压缩（解决 Vercel 请求体大小限制）
+async function compressImage(file: File, maxSizeMB: number = 3): Promise<File> {
+  // 如果文件已经足够小，直接返回
+  if (file.size <= maxSizeMB * 1024 * 1024) {
+    return file;
+  }
+
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      if (!ctx) {
+        reject(new Error('无法创建 canvas context'));
+        return;
+      }
+
+      // 计算压缩后的尺寸
+      let { naturalWidth: width, naturalHeight: height } = img;
+      const maxDimension = 2048; // 最大边长
+
+      if (width > maxDimension || height > maxDimension) {
+        const ratio = Math.min(maxDimension / width, maxDimension / height);
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // 递归尝试不同质量压缩
+      let quality = 0.8;
+      const tryCompress = () => {
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              reject(new Error('压缩失败'));
+              return;
+            }
+
+            // 如果仍然太大且质量可以继续降低
+            if (blob.size > maxSizeMB * 1024 * 1024 && quality > 0.3) {
+              quality -= 0.1;
+              tryCompress();
+            } else {
+              const compressedFile = new File(
+                [blob],
+                file.name.replace(/\.[^.]+$/, '.jpg'),
+                { type: 'image/jpeg' }
+              );
+              console.log(`图片压缩: ${(file.size / 1024 / 1024).toFixed(2)}MB → ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB (质量: ${(quality * 100).toFixed(0)}%)`);
+              resolve(compressedFile);
+            }
+          },
+          'image/jpeg',
+          quality
+        );
+      };
+
+      tryCompress();
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(new Error('图片加载失败'));
+    };
+
+    img.src = objectUrl;
+  });
+}
+
 // 主页面
 export default function VisionPage() {
   const [selectedModels, setSelectedModels] = useState<string[]>([
@@ -901,6 +978,13 @@ export default function VisionPage() {
           setError(prev => prev ? `${prev}\n${file.name}: HEIC 转换失败` : `${file.name}: HEIC 转换失败`);
           continue;
         }
+      }
+
+      // 压缩大图片（避免超过 Vercel 请求体大小限制）
+      try {
+        finalFile = await compressImage(finalFile, 3);
+      } catch (e) {
+        console.warn('图片压缩失败，使用原图:', e);
       }
 
       newImages.push({
