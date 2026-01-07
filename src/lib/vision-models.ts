@@ -28,18 +28,4 @@ export const VISION_MODELS: VisionModelConfig[] = [
     speed: '较慢',
     description: '通义千问视觉模型，最强性能',
   },
-  {
-    id: 'z-ai/glm-4.6v',
-    name: 'GLM-4.6V',
-    vendor: '智谱',
-    speed: '中速',
-    description: '智谱 AI 视觉模型，支持 128K 上下文',
-  },
-  {
-    id: 'thudm/glm-4.1v-9b-thinking',
-    name: 'GLM-4.1V Thinking',
-    vendor: '清华',
-    speed: '较慢',
-    description: '清华 GLM 视觉推理模型，64K 上下文',
-  },
 ];
