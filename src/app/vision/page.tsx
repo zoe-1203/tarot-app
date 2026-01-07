@@ -84,6 +84,18 @@ interface TestDataInfo {
   images: string[];
 }
 
+// 多图片上传的单张图片状态
+interface ImageItem {
+  id: string;
+  file: File;
+  previewUrl: string;
+  status: 'pending' | 'processing' | 'done' | 'error';
+  results?: VisionResponse;
+  error?: string;
+}
+
+const MAX_IMAGES = 10;
+
 // 视觉模型选择器
 function VisionModelSelector({
   models,
@@ -144,15 +156,19 @@ function VisionModelSelector({
   );
 }
 
-// 图片上传组件
-function ImageUploader({
-  onImageSelect,
-  selectedImage,
-  previewUrl,
+// 多图片上传组件
+function MultiImageUploader({
+  images,
+  onImagesAdd,
+  onImageRemove,
+  onClearAll,
+  maxImages = MAX_IMAGES,
 }: {
-  onImageSelect: (file: File) => void;
-  selectedImage: File | null;
-  previewUrl: string | null;
+  images: ImageItem[];
+  onImagesAdd: (files: File[]) => void;
+  onImageRemove: (id: string) => void;
+  onClearAll: () => void;
+  maxImages?: number;
 }) {
   const [isDragging, setIsDragging] = useState(false);
 
@@ -160,19 +176,130 @@ function ImageUploader({
     (e: React.DragEvent) => {
       e.preventDefault();
       setIsDragging(false);
-      const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith('image/')) {
-        onImageSelect(file);
+      const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+      if (files.length > 0) {
+        onImagesAdd(files);
       }
     },
-    [onImageSelect]
+    [onImagesAdd]
   );
+
+  const handleFileSelect = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files.length > 0) {
+        const files = Array.from(e.target.files);
+        onImagesAdd(files);
+        e.target.value = ''; // 清空 input 以便再次选择相同文件
+      }
+    },
+    [onImagesAdd]
+  );
+
+  const getStatusIcon = (status: ImageItem['status']) => {
+    switch (status) {
+      case 'done':
+        return <span className="text-emerald-500">✓</span>;
+      case 'processing':
+        return <span className="text-blue-500 animate-spin">◌</span>;
+      case 'error':
+        return <span className="text-red-500">✕</span>;
+      default:
+        return <span className="text-gray-400">○</span>;
+    }
+  };
+
+  const getStatusText = (status: ImageItem['status']) => {
+    switch (status) {
+      case 'done':
+        return '完成';
+      case 'processing':
+        return '识别中...';
+      case 'error':
+        return '失败';
+      default:
+        return '等待中';
+    }
+  };
 
   return (
     <div className="mb-6">
-      <label className="block text-sm font-medium mb-2 text-gray-700">
-        上传塔罗牌照片
-      </label>
+      <div className="flex justify-between items-center mb-2">
+        <label className="block text-sm font-medium text-gray-700">
+          上传塔罗牌照片（最多 {maxImages} 张）
+        </label>
+        {images.length > 0 && (
+          <button
+            onClick={onClearAll}
+            className="text-xs text-red-600 hover:text-red-700"
+          >
+            清空全部
+          </button>
+        )}
+      </div>
+
+      {/* 已选择的图片网格 */}
+      {images.length > 0 && (
+        <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mb-4">
+          {images.map((img) => (
+            <div
+              key={img.id}
+              className={`relative aspect-[3/4] rounded-lg overflow-hidden border-2 ${
+                img.status === 'processing'
+                  ? 'border-blue-400'
+                  : img.status === 'done'
+                  ? 'border-emerald-400'
+                  : img.status === 'error'
+                  ? 'border-red-400'
+                  : 'border-gray-200'
+              }`}
+            >
+              <img
+                src={img.previewUrl}
+                alt={img.file.name}
+                className="w-full h-full object-cover"
+              />
+              {/* 状态覆盖层 */}
+              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-xl">{getStatusIcon(img.status)}</div>
+                  <div className="text-xs text-white mt-1">{getStatusText(img.status)}</div>
+                </div>
+              </div>
+              {/* 删除按钮 */}
+              {img.status !== 'processing' && (
+                <button
+                  onClick={() => onImageRemove(img.id)}
+                  className="absolute top-1 right-1 w-5 h-5 bg-red-500 hover:bg-red-600
+                           text-white rounded-full text-xs flex items-center justify-center"
+                >
+                  ×
+                </button>
+              )}
+              {/* 文件名 */}
+              <div className="absolute bottom-0 left-0 right-0 bg-black/60 px-1 py-0.5">
+                <p className="text-xs text-white truncate">{img.file.name}</p>
+              </div>
+            </div>
+          ))}
+
+          {/* 添加更多按钮 */}
+          {images.length < maxImages && (
+            <label
+              htmlFor="multi-image-upload"
+              className="aspect-[3/4] rounded-lg border-2 border-dashed border-gray-300
+                       hover:border-gray-400 cursor-pointer flex items-center justify-center
+                       bg-gray-50 hover:bg-gray-100 transition-colors"
+            >
+              <div className="text-center">
+                <div className="text-2xl text-gray-400">+</div>
+                <div className="text-xs text-gray-500">添加</div>
+              </div>
+            </label>
+          )}
+        </div>
+      )}
+
+      {/* 上传区域 */}
       <div
         onDragOver={(e) => {
           e.preventDefault();
@@ -181,59 +308,74 @@ function ImageUploader({
         onDragLeave={() => setIsDragging(false)}
         onDrop={handleDrop}
         className={`
-          border-2 border-dashed rounded-lg p-8 text-center cursor-pointer
+          border-2 border-dashed rounded-lg p-6 text-center cursor-pointer
           transition-colors
           ${
             isDragging
               ? 'border-indigo-500 bg-indigo-50'
               : 'border-gray-300 hover:border-gray-400'
           }
+          ${images.length >= maxImages ? 'opacity-50 pointer-events-none' : ''}
         `}
       >
         <input
           type="file"
           accept="image/*"
-          onChange={(e) =>
-            e.target.files?.[0] && onImageSelect(e.target.files[0])
-          }
+          multiple
+          onChange={handleFileSelect}
           className="hidden"
-          id="image-upload"
+          id="multi-image-upload"
+          disabled={images.length >= maxImages}
         />
-        <label htmlFor="image-upload" className="cursor-pointer">
-          {selectedImage && previewUrl ? (
-            <div>
-              <img
-                src={previewUrl}
-                alt="Selected"
-                className="max-h-48 mx-auto mb-2 rounded"
-              />
-              <p className="text-sm text-gray-600">{selectedImage.name}</p>
-              <p className="text-xs text-gray-500 mt-1">点击或拖拽更换图片</p>
-            </div>
-          ) : (
-            <div>
-              <svg
-                className="mx-auto h-12 w-12 text-gray-400"
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 48 48"
-                aria-hidden="true"
-              >
-                <path
-                  d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <p className="mt-2 text-sm text-gray-600">
-                点击或拖拽图片到此处上传
-              </p>
-              <p className="text-xs text-gray-500">支持 JPG、PNG、WebP、HEIC 格式</p>
-            </div>
-          )}
+        <label
+          htmlFor="multi-image-upload"
+          className={`cursor-pointer ${images.length >= maxImages ? 'cursor-not-allowed' : ''}`}
+        >
+          <svg
+            className="mx-auto h-10 w-10 text-gray-400"
+            stroke="currentColor"
+            fill="none"
+            viewBox="0 0 48 48"
+            aria-hidden="true"
+          >
+            <path
+              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <p className="mt-2 text-sm text-gray-600">
+            {images.length === 0
+              ? '点击或拖拽图片到此处上传（支持多选）'
+              : images.length >= maxImages
+              ? `已达到最大数量 ${maxImages} 张`
+              : `已选择 ${images.length} 张，可继续添加`}
+          </p>
+          <p className="text-xs text-gray-500">支持 JPG、PNG、WebP、HEIC 格式</p>
         </label>
       </div>
+
+      {/* 进度统计 */}
+      {images.length > 0 && (
+        <div className="mt-2 text-sm text-gray-600">
+          {(() => {
+            const done = images.filter(i => i.status === 'done').length;
+            const errors = images.filter(i => i.status === 'error').length;
+            const processing = images.filter(i => i.status === 'processing').length;
+            if (processing > 0) {
+              return `正在识别: ${done}/${images.length} 完成`;
+            }
+            if (done === images.length) {
+              return `全部完成: ${done} 张`;
+            }
+            if (errors > 0) {
+              return `完成 ${done} 张，失败 ${errors} 张`;
+            }
+            return `已选择 ${images.length} 张图片`;
+          })()}
+        </div>
+      )}
     </div>
   );
 }
@@ -626,14 +768,32 @@ function BatchTestPanel({
   );
 }
 
+// 生成唯一 ID
+function generateId(): string {
+  return `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+}
+
+// File 转 base64
+async function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      resolve(result.split(',')[1]);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 // 主页面
 export default function VisionPage() {
   const [selectedModels, setSelectedModels] = useState<string[]>([
     'qwen/qwen-vl-plus',
   ]);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [results, setResults] = useState<VisionResponse | null>(null);
+
+  // 多图片状态
+  const [images, setImages] = useState<ImageItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -657,119 +817,231 @@ export default function VisionPage() {
       .catch(console.error);
   }, []);
 
-  // 处理图片选择（支持 HEIC 自动转换）
-  const handleImageSelect = useCallback(async (file: File) => {
-    setResults(null);
+  // 处理 HEIC 转换
+  const convertHeicToJpeg = useCallback(async (file: File): Promise<File | null> => {
+    const testUrl = URL.createObjectURL(file);
+    const img = new Image();
+
+    const canLoadNatively = await new Promise<boolean>((resolve) => {
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = testUrl;
+    });
+
+    if (canLoadNatively) {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0);
+
+        const blob = await new Promise<Blob>((resolve, reject) => {
+          canvas.toBlob(
+            (b) => (b ? resolve(b) : reject(new Error('Canvas toBlob failed'))),
+            'image/jpeg',
+            0.9
+          );
+        });
+
+        const convertedFile = new File(
+          [blob],
+          file.name.replace(/\.(heic|heif)$/i, '.jpg'),
+          { type: 'image/jpeg' }
+        );
+
+        URL.revokeObjectURL(testUrl);
+        return convertedFile;
+      } catch (e) {
+        console.error('Canvas conversion failed:', e);
+      }
+    }
+
+    URL.revokeObjectURL(testUrl);
+    return null;
+  }, []);
+
+  // 添加图片
+  const handleImagesAdd = useCallback(async (files: File[]) => {
     setError('');
 
-    // 检查是否为 HEIC 格式
-    const isHeic = file.type === 'image/heic' ||
-                   file.type === 'image/heif' ||
-                   file.name.toLowerCase().endsWith('.heic') ||
-                   file.name.toLowerCase().endsWith('.heif');
+    // 检查数量限制
+    const remainingSlots = MAX_IMAGES - images.length;
+    if (remainingSlots <= 0) {
+      setError(`最多只能上传 ${MAX_IMAGES} 张图片`);
+      return;
+    }
 
-    if (isHeic) {
-      // 首先尝试使用浏览器原生支持（Safari 支持 HEIC）
-      const testUrl = URL.createObjectURL(file);
-      const img = new Image();
+    const filesToAdd = files.slice(0, remainingSlots);
+    if (files.length > remainingSlots) {
+      setError(`已选择 ${filesToAdd.length} 张，超出部分已忽略`);
+    }
 
-      const canLoadNatively = await new Promise<boolean>((resolve) => {
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(false);
-        img.src = testUrl;
-      });
+    const newImages: ImageItem[] = [];
 
-      if (canLoadNatively) {
-        // 浏览器原生支持 HEIC，使用 Canvas 转换为 JPEG
-        setError('正在转换 HEIC 格式...');
-        try {
-          const canvas = document.createElement('canvas');
-          canvas.width = img.naturalWidth;
-          canvas.height = img.naturalHeight;
-          const ctx = canvas.getContext('2d');
-          ctx?.drawImage(img, 0, 0);
+    for (const file of filesToAdd) {
+      // 检查是否为 HEIC 格式
+      const isHeic = file.type === 'image/heic' ||
+                     file.type === 'image/heif' ||
+                     file.name.toLowerCase().endsWith('.heic') ||
+                     file.name.toLowerCase().endsWith('.heif');
 
-          const blob = await new Promise<Blob>((resolve, reject) => {
-            canvas.toBlob(
-              (b) => (b ? resolve(b) : reject(new Error('Canvas toBlob failed'))),
-              'image/jpeg',
-              0.9
-            );
-          });
+      let finalFile = file;
 
-          const convertedFile = new File(
-            [blob],
-            file.name.replace(/\.(heic|heif)$/i, '.jpg'),
-            { type: 'image/jpeg' }
-          );
-
-          setSelectedImage(convertedFile);
-          setPreviewUrl(URL.createObjectURL(convertedFile));
-          setError('');
-          URL.revokeObjectURL(testUrl);
-          return;
-        } catch (e) {
-          console.error('Canvas conversion failed:', e);
+      if (isHeic) {
+        const converted = await convertHeicToJpeg(file);
+        if (converted) {
+          finalFile = converted;
+        } else {
+          // 无法转换 HEIC，跳过这个文件
+          setError(prev => prev ? `${prev}\n${file.name}: HEIC 转换失败` : `${file.name}: HEIC 转换失败`);
+          continue;
         }
       }
 
-      URL.revokeObjectURL(testUrl);
-
-      // Chrome 等浏览器不支持 HEIC，提示用户转换
-      setError('Chrome 浏览器不支持 HEIC 格式。请使用以下方式之一：\n1. 使用 Safari 浏览器上传\n2. 在 iPhone 设置 → 相机 → 格式 → 选择「兼容性最佳」\n3. 用在线工具转换为 JPG 后上传');
-      return;
-    } else {
-      setSelectedImage(file);
-      setPreviewUrl(URL.createObjectURL(file));
+      newImages.push({
+        id: generateId(),
+        file: finalFile,
+        previewUrl: URL.createObjectURL(finalFile),
+        status: 'pending',
+      });
     }
+
+    if (newImages.length > 0) {
+      setImages(prev => [...prev, ...newImages]);
+    }
+  }, [images.length, convertHeicToJpeg]);
+
+  // 删除单张图片
+  const handleImageRemove = useCallback((id: string) => {
+    setImages(prev => {
+      const img = prev.find(i => i.id === id);
+      if (img) {
+        URL.revokeObjectURL(img.previewUrl);
+      }
+      return prev.filter(i => i.id !== id);
+    });
   }, []);
 
-  // 单张图片识别
+  // 清空所有图片
+  const handleClearAll = useCallback(() => {
+    images.forEach(img => URL.revokeObjectURL(img.previewUrl));
+    setImages([]);
+    setError('');
+  }, [images]);
+
+  // 多图片识别（逐张处理）
   const handleRecognize = async () => {
-    if (!selectedImage || selectedModels.length === 0) {
+    if (images.length === 0 || selectedModels.length === 0) {
       setError('请选择图片和至少一个模型');
       return;
     }
 
     setLoading(true);
     setError('');
-    setResults(null);
 
-    try {
-      // 读取图片为 base64
-      const base64 = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const result = reader.result as string;
-          resolve(result.split(',')[1]);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(selectedImage);
-      });
+    // 重置未完成图片的状态
+    setImages(prev => prev.map(img =>
+      img.status === 'done' ? img : { ...img, status: 'pending' as const, error: undefined }
+    ));
 
-      const response = await fetch('/api/vision', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          imageBase64: base64,
-          mimeType: selectedImage.type || 'image/jpeg',
-          models: selectedModels,
-          filename: selectedImage.name,
-        }),
-      });
+    // 逐张处理
+    for (let i = 0; i < images.length; i++) {
+      const image = images[i];
 
-      const data: VisionResponse = await response.json();
+      // 跳过已完成的
+      if (image.status === 'done') continue;
 
-      if (!response.ok) {
-        throw new Error(data.error || 'API 请求失败');
+      // 更新状态为 processing
+      setImages(prev => prev.map((img, idx) =>
+        idx === i ? { ...img, status: 'processing' as const } : img
+      ));
+
+      try {
+        const base64 = await fileToBase64(image.file);
+
+        const response = await fetch('/api/vision', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            imageBase64: base64,
+            mimeType: image.file.type || 'image/jpeg',
+            models: selectedModels,
+            filename: image.file.name,
+          }),
+        });
+
+        const data: VisionResponse = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'API 请求失败');
+        }
+
+        // 更新状态为 done，保存结果
+        setImages(prev => prev.map((img, idx) =>
+          idx === i ? { ...img, status: 'done' as const, results: data } : img
+        ));
+      } catch (err) {
+        // 更新状态为 error
+        const errorMsg = err instanceof Error ? err.message : '未知错误';
+        setImages(prev => prev.map((img, idx) =>
+          idx === i ? { ...img, status: 'error' as const, error: errorMsg } : img
+        ));
       }
-
-      setResults(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '未知错误');
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
+  };
+
+  // 重试失败的图片
+  const handleRetryFailed = async () => {
+    const failedImages = images.filter(img => img.status === 'error');
+    if (failedImages.length === 0) return;
+
+    setLoading(true);
+    setError('');
+
+    for (const image of failedImages) {
+      const idx = images.findIndex(img => img.id === image.id);
+      if (idx === -1) continue;
+
+      // 更新状态为 processing
+      setImages(prev => prev.map((img) =>
+        img.id === image.id ? { ...img, status: 'processing' as const, error: undefined } : img
+      ));
+
+      try {
+        const base64 = await fileToBase64(image.file);
+
+        const response = await fetch('/api/vision', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            imageBase64: base64,
+            mimeType: image.file.type || 'image/jpeg',
+            models: selectedModels,
+            filename: image.file.name,
+          }),
+        });
+
+        const data: VisionResponse = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'API 请求失败');
+        }
+
+        setImages(prev => prev.map((img) =>
+          img.id === image.id ? { ...img, status: 'done' as const, results: data } : img
+        ));
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : '未知错误';
+        setImages(prev => prev.map((img) =>
+          img.id === image.id ? { ...img, status: 'error' as const, error: errorMsg } : img
+        ));
+      }
+    }
+
+    setLoading(false);
   };
 
   // 批量测试
@@ -825,16 +1097,17 @@ export default function VisionPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* 左侧：单张识别 */}
+          {/* 左侧：多图片识别 */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
             <h2 className="text-xl font-semibold text-gray-900 mb-6">
-              单张识别
+              图片识别
             </h2>
 
-            <ImageUploader
-              onImageSelect={handleImageSelect}
-              selectedImage={selectedImage}
-              previewUrl={previewUrl}
+            <MultiImageUploader
+              images={images}
+              onImagesAdd={handleImagesAdd}
+              onImageRemove={handleImageRemove}
+              onClearAll={handleClearAll}
             />
 
             <VisionModelSelector
@@ -843,19 +1116,32 @@ export default function VisionPage() {
               onChange={setSelectedModels}
             />
 
-            <button
-              onClick={handleRecognize}
-              disabled={
-                loading || !selectedImage || selectedModels.length === 0
-              }
-              className="w-full py-4 rounded-lg bg-indigo-600 hover:bg-indigo-700
-                       disabled:bg-indigo-400 text-white font-medium transition-colors"
-            >
-              {loading ? '识别中...' : '开始识别'}
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={handleRecognize}
+                disabled={loading || images.length === 0 || selectedModels.length === 0}
+                className="flex-1 py-4 rounded-lg bg-indigo-600 hover:bg-indigo-700
+                         disabled:bg-indigo-400 text-white font-medium transition-colors"
+              >
+                {loading
+                  ? `识别中 (${images.filter(i => i.status === 'done').length}/${images.length})`
+                  : `开始识别 ${images.length > 0 ? `(${images.length} 张)` : ''}`}
+              </button>
+
+              {/* 重试失败按钮 */}
+              {images.some(i => i.status === 'error') && !loading && (
+                <button
+                  onClick={handleRetryFailed}
+                  className="px-4 py-4 rounded-lg bg-amber-500 hover:bg-amber-600
+                           text-white font-medium transition-colors"
+                >
+                  重试失败
+                </button>
+              )}
+            </div>
 
             {error && (
-              <p className="mt-4 text-red-600 text-center text-sm">{error}</p>
+              <p className="mt-4 text-red-600 text-center text-sm whitespace-pre-line">{error}</p>
             )}
           </div>
 
@@ -870,13 +1156,137 @@ export default function VisionPage() {
           />
         </div>
 
-        {/* 识别结果展示 */}
-        {results && (
+        {/* 多图片识别结果展示 */}
+        {images.some(img => img.status === 'done' || img.status === 'error') && (
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-            <RecognitionResults
-              results={results.results}
-              metadata={results.metadata}
-            />
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-lg font-semibold text-gray-900">
+                识别结果 ({images.filter(i => i.status === 'done').length}/{images.length} 张完成)
+              </h3>
+            </div>
+
+            <div className="space-y-6">
+              {images.map((img) => (
+                <div
+                  key={img.id}
+                  className={`p-4 rounded-xl border-2 ${
+                    img.status === 'done'
+                      ? 'border-emerald-200 bg-emerald-50/30'
+                      : img.status === 'error'
+                      ? 'border-red-200 bg-red-50/30'
+                      : img.status === 'processing'
+                      ? 'border-blue-200 bg-blue-50/30'
+                      : 'border-gray-200 bg-gray-50/30'
+                  }`}
+                >
+                  <div className="flex gap-4">
+                    {/* 图片缩略图 */}
+                    <div className="flex-shrink-0">
+                      <img
+                        src={img.previewUrl}
+                        alt={img.file.name}
+                        className="w-24 h-32 object-cover rounded-lg border border-gray-300"
+                      />
+                    </div>
+
+                    {/* 识别信息 */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="font-medium text-gray-900 truncate">
+                          {img.file.name}
+                        </span>
+                        <span
+                          className={`px-2 py-0.5 rounded text-xs font-medium ${
+                            img.status === 'done'
+                              ? 'bg-emerald-100 text-emerald-700'
+                              : img.status === 'error'
+                              ? 'bg-red-100 text-red-700'
+                              : img.status === 'processing'
+                              ? 'bg-blue-100 text-blue-700'
+                              : 'bg-gray-100 text-gray-600'
+                          }`}
+                        >
+                          {img.status === 'done'
+                            ? '完成'
+                            : img.status === 'error'
+                            ? '失败'
+                            : img.status === 'processing'
+                            ? '识别中...'
+                            : '等待中'}
+                        </span>
+                      </div>
+
+                      {/* 错误信息 */}
+                      {img.status === 'error' && img.error && (
+                        <div className="text-sm text-red-600 bg-red-50 p-2 rounded mb-2">
+                          {img.error}
+                        </div>
+                      )}
+
+                      {/* 识别结果 */}
+                      {img.status === 'done' && img.results && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {Object.values(img.results.results).map((result) => (
+                            <div
+                              key={result.modelId}
+                              className="p-3 bg-white rounded-lg border border-gray-200"
+                            >
+                              <div className="flex justify-between items-center mb-2">
+                                <span className="text-sm font-medium text-gray-700">
+                                  {result.modelName}
+                                </span>
+                                <span className="text-xs text-gray-500">
+                                  {result.responseTime}ms
+                                </span>
+                              </div>
+
+                              {result.error ? (
+                                <div className="text-xs text-red-600">{result.error}</div>
+                              ) : result.cards.length === 0 ? (
+                                <div className="text-xs text-gray-500">未识别到塔罗牌</div>
+                              ) : (
+                                <div className="space-y-1">
+                                  {result.cards.map((card, cardIdx) => (
+                                    <div key={cardIdx} className="flex items-center gap-2 text-sm">
+                                      <span className="text-gray-500">#{card.position}</span>
+                                      <span className="font-medium text-gray-900">
+                                        {card.cardNameCn || '?'}
+                                      </span>
+                                      <span
+                                        className={`px-1.5 py-0.5 rounded text-xs ${
+                                          card.orientation === 'upright'
+                                            ? 'bg-emerald-100 text-emerald-700'
+                                            : card.orientation === 'reversed'
+                                            ? 'bg-rose-100 text-rose-700'
+                                            : 'bg-gray-100 text-gray-600'
+                                        }`}
+                                      >
+                                        {card.orientation === 'upright'
+                                          ? '正位'
+                                          : card.orientation === 'reversed'
+                                          ? '逆位'
+                                          : '未知'}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* 等待/处理中状态 */}
+                      {(img.status === 'pending' || img.status === 'processing') && (
+                        <div className="text-sm text-gray-500">
+                          {img.status === 'processing' ? '正在识别...' : '等待识别'}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </main>
