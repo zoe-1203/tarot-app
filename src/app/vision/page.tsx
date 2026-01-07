@@ -377,7 +377,7 @@ function BatchTestPanel({
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">批量测试</h3>
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">批量测试（暂不可用，别用）</h3>
 
       {testInfo ? (
         <div className="mb-4 p-3 bg-gray-50 rounded-lg text-sm">
