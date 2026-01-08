@@ -34,5 +34,12 @@ export const AVAILABLE_MODELS: ModelConfig[] = [
     vendor: 'Anthropic',
     speed: '极快',
     description: '最快速的 Claude 模型'
+  },
+  {
+    id: 'qwen/qwen3-max',
+    name: 'Qwen3 Max',
+    vendor: '阿里',
+    speed: '中速',
+    description: '通义千问最强模型，256K 上下文'
   }
 ];
