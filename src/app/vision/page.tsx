@@ -1134,6 +1134,62 @@ export default function VisionPage() {
     setLoading(false);
   };
 
+  // 全部重试（重新识别所有图片）
+  const handleRetryAll = async () => {
+    if (images.length === 0 || selectedModels.length === 0) return;
+
+    setLoading(true);
+    setError('');
+
+    // 将所有图片状态重置为 pending
+    setImages(prev => prev.map(img => ({
+      ...img,
+      status: 'pending' as const,
+      results: undefined,
+      error: undefined,
+    })));
+
+    // 逐张处理
+    for (const image of images) {
+      // 更新状态为 processing
+      setImages(prev => prev.map((img) =>
+        img.id === image.id ? { ...img, status: 'processing' as const } : img
+      ));
+
+      try {
+        const base64 = await fileToBase64(image.file);
+
+        const response = await fetch('/api/vision', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            imageBase64: base64,
+            mimeType: image.file.type || 'image/jpeg',
+            models: selectedModels,
+            filename: image.file.name,
+          }),
+        });
+
+        const data: VisionResponse = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'API 请求失败');
+        }
+
+        setImages(prev => prev.map((img) =>
+          img.id === image.id ? { ...img, status: 'done' as const, results: data } : img
+        ));
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : '未知错误';
+        setImages(prev => prev.map((img) =>
+          img.id === image.id ? { ...img, status: 'error' as const, error: errorMsg } : img
+        ));
+      }
+    }
+
+    setLoading(false);
+  };
+
   // 重新识别单张图片
   const handleRerecognize = async (imageId: string) => {
     const image = images.find(img => img.id === imageId);
@@ -1263,6 +1319,17 @@ export default function VisionPage() {
                   ? `识别中 (${images.filter(i => i.status === 'done').length}/${images.length})`
                   : `开始识别 ${images.length > 0 ? `(${images.length} 张)` : ''}`}
               </button>
+
+              {/* 全部重试按钮 */}
+              {images.some(i => i.status === 'done' || i.status === 'error') && !loading && (
+                <button
+                  onClick={handleRetryAll}
+                  className="px-4 py-4 rounded-lg bg-blue-500 hover:bg-blue-600
+                           text-white font-medium transition-colors"
+                >
+                  全部重试
+                </button>
+              )}
 
               {/* 重试失败按钮 */}
               {images.some(i => i.status === 'error') && !loading && (
