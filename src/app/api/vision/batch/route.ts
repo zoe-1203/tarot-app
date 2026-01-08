@@ -167,7 +167,7 @@ async function callDoubaoVisionModel(
 
   const startTime = Date.now();
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 60000);
+  const timeoutId = setTimeout(() => controller.abort(), 120000); // 豆包超时 120 秒
 
   try {
     const response = await fetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', {
@@ -217,7 +217,7 @@ async function callDoubaoVisionModel(
     clearTimeout(timeoutId);
     if (error instanceof Error) {
       if (error.name === 'AbortError') {
-        throw new Error(`请求超时（60秒），模型 ${modelId} 响应过慢`);
+        throw new Error(`请求超时（120秒），模型 ${modelId} 响应过慢`);
       }
       throw new Error(`${modelId}: ${error.message}`);
     }
