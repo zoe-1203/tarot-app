@@ -4,6 +4,7 @@ export interface VisionModelConfig {
   vendor: string;
   speed: string;
   description: string;
+  apiType?: 'openrouter' | 'doubao';  // API 类型，默认 openrouter
 }
 
 export const VISION_MODELS: VisionModelConfig[] = [
@@ -34,5 +35,13 @@ export const VISION_MODELS: VisionModelConfig[] = [
     vendor: '阿里',
     speed: '较慢',
     description: '通义千问视觉模型，最强性能',
+  },
+  {
+    id: 'doubao-seed-1-8-251228',
+    name: 'Doubao Seed 1.8',
+    vendor: '字节跳动',
+    speed: '中速',
+    description: '豆包视觉模型，字节跳动出品',
+    apiType: 'doubao',
   },
 ];

@@ -76,7 +76,8 @@ interface BatchTestResponse {
 
 const TEST_DATA_DIR = path.join(process.cwd(), '../test/拍照占卜测试数据');
 
-async function callVisionModel(
+// OpenRouter API 调用
+async function callOpenRouterVisionModel(
   imageBase64: string,
   mimeType: string,
   modelId: string
@@ -88,8 +89,6 @@ async function callVisionModel(
   }
 
   const startTime = Date.now();
-
-  // 设置 60 秒超时（大模型需要更长时间）
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 60000);
 
@@ -138,11 +137,9 @@ async function callVisionModel(
     }
 
     const data = await response.json();
-    const responseTime = Date.now() - startTime;
-
     return {
       response: data.choices[0].message.content,
-      time: responseTime,
+      time: Date.now() - startTime,
     };
   } catch (error) {
     clearTimeout(timeoutId);
@@ -154,6 +151,94 @@ async function callVisionModel(
     }
     throw error;
   }
+}
+
+// 豆包 API 调用
+async function callDoubaoVisionModel(
+  imageBase64: string,
+  mimeType: string,
+  modelId: string
+): Promise<{ response: string; time: number }> {
+  const apiKey = process.env.DOUBAO_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('DOUBAO_API_KEY is not configured');
+  }
+
+  const startTime = Date.now();
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+  try {
+    const response = await fetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: modelId,
+        messages: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'image_url',
+                image_url: {
+                  url: `data:${mimeType};base64,${imageBase64}`,
+                },
+              },
+              {
+                type: 'text',
+                text: VISION_RECOGNITION_PROMPT,
+              },
+            ],
+          },
+        ],
+        max_tokens: 4000,
+        temperature: 0.3,
+      }),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(`Doubao API error: ${error}`);
+    }
+
+    const data = await response.json();
+    return {
+      response: data.choices[0].message.content,
+      time: Date.now() - startTime,
+    };
+  } catch (error) {
+    clearTimeout(timeoutId);
+    if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        throw new Error(`请求超时（60秒），模型 ${modelId} 响应过慢`);
+      }
+      throw new Error(`${modelId}: ${error.message}`);
+    }
+    throw error;
+  }
+}
+
+// 统一调用入口，根据模型配置选择 API
+async function callVisionModel(
+  imageBase64: string,
+  mimeType: string,
+  modelId: string
+): Promise<{ response: string; time: number }> {
+  const modelConfig = VISION_MODELS.find(m => m.id === modelId);
+  const apiType = modelConfig?.apiType || 'openrouter';
+
+  if (apiType === 'doubao') {
+    return callDoubaoVisionModel(imageBase64, mimeType, modelId);
+  }
+
+  return callOpenRouterVisionModel(imageBase64, mimeType, modelId);
 }
 
 function normalizeCardName(name: string | null): string {
