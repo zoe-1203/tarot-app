@@ -61,6 +61,10 @@ async function callVisionModel(
       },
       body: JSON.stringify({
         model: modelId,
+        provider: {
+          order: ['Alibaba'],
+          allow_fallbacks: true,
+        },
         messages: [
           {
             role: 'user',
