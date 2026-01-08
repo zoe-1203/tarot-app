@@ -1134,6 +1134,52 @@ export default function VisionPage() {
     setLoading(false);
   };
 
+  // 重新识别单张图片
+  const handleRerecognize = async (imageId: string) => {
+    const image = images.find(img => img.id === imageId);
+    if (!image || selectedModels.length === 0) return;
+
+    setLoading(true);
+    setError('');
+
+    // 更新状态为 processing
+    setImages(prev => prev.map((img) =>
+      img.id === imageId ? { ...img, status: 'processing' as const, error: undefined } : img
+    ));
+
+    try {
+      const base64 = await fileToBase64(image.file);
+
+      const response = await fetch('/api/vision', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          imageBase64: base64,
+          mimeType: image.file.type || 'image/jpeg',
+          models: selectedModels,
+          filename: image.file.name,
+        }),
+      });
+
+      const data: VisionResponse = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'API 请求失败');
+      }
+
+      setImages(prev => prev.map((img) =>
+        img.id === imageId ? { ...img, status: 'done' as const, results: data } : img
+      ));
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : '未知错误';
+      setImages(prev => prev.map((img) =>
+        img.id === imageId ? { ...img, status: 'error' as const, error: errorMsg } : img
+      ));
+    }
+
+    setLoading(false);
+  };
+
   // 批量测试
   const handleBatchTest = async (limit?: number) => {
     if (selectedModels.length === 0) {
@@ -1310,6 +1356,15 @@ export default function VisionPage() {
                             ? '等待识别中'
                             : '已上传'}
                         </span>
+                        {/* 重新识别按钮 */}
+                        {(img.status === 'done' || img.status === 'error') && !loading && (
+                          <button
+                            onClick={() => handleRerecognize(img.id)}
+                            className="px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors"
+                          >
+                            重新识别
+                          </button>
+                        )}
                       </div>
 
                       {/* 错误信息 */}
