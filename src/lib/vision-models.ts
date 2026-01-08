@@ -16,6 +16,13 @@ export const VISION_MODELS: VisionModelConfig[] = [
     description: 'Qwen3 最新视觉模型，235B 参数，最强性能',
   },
   {
+    id: 'qwen/qwen3-vl-235b-a22b-thinking',
+    name: 'Qwen3 VL 235B Thinking',
+    vendor: '阿里',
+    speed: '较慢',
+    description: 'Qwen3 视觉模型 Thinking 版本，专注多模态推理',
+  },
+  {
     id: 'qwen/qwen-vl-plus',
     name: 'Qwen VL Plus',
     vendor: '阿里',
