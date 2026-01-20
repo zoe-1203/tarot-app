@@ -1,0 +1,44 @@
+{
+  "taskId": "0b4d1388-4d95-4cd5-84d2-0fd2544fbb18",
+  "status": "cancelled",
+  "modelId": "qwen/qwen3-vl-235b-a22b-thinking",
+  "totalImages": 4,
+  "processedImages": 0,
+  "currentImage": null,
+  "progress": [
+    {
+      "filename": "IMG_0346.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_2123601425.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_925573.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_994406164.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    }
+  ],
+  "summary": {
+    "successCount": 0,
+    "failureCount": 0,
+    "differenceCount": 0,
+    "totalTime": 13252
+  },
+  "startTime": "2026-01-11T13:40:28.809Z",
+  "errors": [],
+  "processId": 98483,
+  "endTime": "2026-01-11T13:40:42.059Z"
+}

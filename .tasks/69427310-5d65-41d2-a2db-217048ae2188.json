@@ -1,0 +1,177 @@
+{
+  "taskId": "69427310-5d65-41d2-a2db-217048ae2188",
+  "status": "cancelled",
+  "modelId": "qwen/qwen3-vl-235b-a22b-thinking",
+  "totalImages": 24,
+  "processedImages": 16,
+  "currentImage": null,
+  "progress": [
+    {
+      "filename": "IMG_0326.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0327.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0328.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0331.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_0332.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_0333.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false,
+      "error": "qwen/qwen3-vl-235b-a22b-thinking: terminated"
+    },
+    {
+      "filename": "IMG_0334.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_0336.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_0338.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false,
+      "error": "qwen/qwen3-vl-235b-a22b-thinking: Cannot read properties of undefined (reading '0')"
+    },
+    {
+      "filename": "IMG_0339.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_0340.JPG",
+      "firstDone": true,
+      "secondDone": false,
+      "hasDifference": false,
+      "error": "qwen/qwen3-vl-235b-a22b-thinking: Cannot read properties of undefined (reading '0')"
+    },
+    {
+      "filename": "IMG_0343.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_0344.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_0345.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false,
+      "error": "qwen/qwen3-vl-235b-a22b-thinking: Cannot read properties of undefined (reading '0')"
+    },
+    {
+      "filename": "IMG_0346.JPG",
+      "firstDone": true,
+      "secondDone": false,
+      "hasDifference": false,
+      "error": "qwen/qwen3-vl-235b-a22b-thinking: Cannot read properties of undefined (reading '0')"
+    },
+    {
+      "filename": "IMG_0349.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_0353.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_1241868279.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_1994870757.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_2123601425.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false,
+      "error": "qwen/qwen3-vl-235b-a22b-thinking: Cannot read properties of undefined (reading '0')"
+    },
+    {
+      "filename": "IMG_263072115.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_275386554.JPG",
+      "firstDone": true,
+      "secondDone": true,
+      "hasDifference": true
+    },
+    {
+      "filename": "IMG_925573.JPG",
+      "firstDone": true,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_994406164.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    }
+  ],
+  "summary": {
+    "successCount": 16,
+    "failureCount": 6,
+    "differenceCount": 12,
+    "totalTime": 3413663
+  },
+  "startTime": "2026-01-11T12:19:49.233Z",
+  "errors": [
+    "IMG_0333.JPG: qwen/qwen3-vl-235b-a22b-thinking: terminated",
+    "IMG_0338.JPG: qwen/qwen3-vl-235b-a22b-thinking: Cannot read properties of undefined (reading '0')",
+    "IMG_0340.JPG: qwen/qwen3-vl-235b-a22b-thinking: Cannot read properties of undefined (reading '0')",
+    "IMG_0345.JPG: qwen/qwen3-vl-235b-a22b-thinking: Cannot read properties of undefined (reading '0')",
+    "IMG_0346.JPG: qwen/qwen3-vl-235b-a22b-thinking: Cannot read properties of undefined (reading '0')",
+    "IMG_2123601425.JPG: qwen/qwen3-vl-235b-a22b-thinking: Cannot read properties of undefined (reading '0')"
+  ],
+  "processId": 98419,
+  "endTime": "2026-01-11T13:16:42.894Z"
+}

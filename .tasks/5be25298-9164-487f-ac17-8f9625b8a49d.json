@@ -1,0 +1,181 @@
+{
+  "taskId": "5be25298-9164-487f-ac17-8f9625b8a49d",
+  "status": "cancelled",
+  "modelId": "qwen/qwen3-vl-235b-a22b-thinking",
+  "totalImages": 26,
+  "processedImages": 0,
+  "currentImage": null,
+  "progress": [
+    {
+      "filename": "IMG_0318.jpg",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false,
+      "error": "qwen/qwen3-vl-235b-a22b-thinking: fetch failed"
+    },
+    {
+      "filename": "IMG_0326.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false,
+      "error": "qwen/qwen3-vl-235b-a22b-thinking: fetch failed"
+    },
+    {
+      "filename": "IMG_0327.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0328.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0330.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0331.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0332.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0333.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0334.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0336.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0338.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0339.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0340.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0343.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0344.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0345.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0346.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0349.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_0353.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_1241868279.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_1994870757.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_2123601425.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_263072115.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_275386554.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_925573.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    },
+    {
+      "filename": "IMG_994406164.JPG",
+      "firstDone": false,
+      "secondDone": false,
+      "hasDifference": false
+    }
+  ],
+  "summary": {
+    "successCount": 0,
+    "failureCount": 2,
+    "differenceCount": 0,
+    "totalTime": 14283
+  },
+  "startTime": "2026-01-11T12:13:24.055Z",
+  "errors": [
+    "IMG_0318.jpg: qwen/qwen3-vl-235b-a22b-thinking: fetch failed",
+    "IMG_0326.JPG: qwen/qwen3-vl-235b-a22b-thinking: fetch failed"
+  ],
+  "processId": 86966,
+  "endTime": "2026-01-11T12:13:38.319Z"
+}

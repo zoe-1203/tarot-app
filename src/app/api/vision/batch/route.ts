@@ -274,15 +274,18 @@ async function callVisionModelWithRetry(
     } catch (error) {
       lastError = error instanceof Error ? error : new Error('Unknown error');
 
-      // 在网络错误或速率限制时重试
+      // 在网络错误、速率限制或超时时重试
       const isFetchError = lastError.message.includes('fetch failed') ||
                            lastError.message.includes('ECONNRESET') ||
                            lastError.message.includes('network');
       const isRateLimited = lastError.message.includes('429') ||
                             lastError.message.includes('rate-limited') ||
                             lastError.message.includes('rate limit');
+      const isTimeout = lastError.message.includes('超时') ||
+                        lastError.message.includes('timeout') ||
+                        lastError.message.includes('AbortError');
 
-      if ((isFetchError || isRateLimited) && attempt < maxRetries) {
+      if ((isFetchError || isRateLimited || isTimeout) && attempt < maxRetries) {
         // 速率限制时等待更长时间
         const waitTime = isRateLimited ? 3000 * (attempt + 1) : 1000 * (attempt + 1);
         console.log(`[${modelId}] 重试 ${attempt + 1}/${maxRetries}，等待 ${waitTime/1000}秒...`);

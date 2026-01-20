@@ -1,0 +1,1090 @@
+{
+  "version": "1.0",
+  "description": "78张韦特塔罗牌标准英文名称库 - 由 extract-card-names.js 自动生成",
+  "generatedAt": "2026-01-20T06:10:25.831Z",
+  "totalCards": 78,
+  "majorArcana": [
+    {
+      "key": "the_fool",
+      "enName": "The Fool",
+      "cnName": "愚人"
+    },
+    {
+      "key": "the_magician",
+      "enName": "The Magician",
+      "cnName": "魔术师"
+    },
+    {
+      "key": "the_high_priestess",
+      "enName": "The High Priestess",
+      "cnName": "女祭司"
+    },
+    {
+      "key": "the_empress",
+      "enName": "The Empress",
+      "cnName": "女皇"
+    },
+    {
+      "key": "the_emperor",
+      "enName": "The Emperor",
+      "cnName": "皇帝"
+    },
+    {
+      "key": "the_hierophant",
+      "enName": "The Hierophant",
+      "cnName": "教皇"
+    },
+    {
+      "key": "the_lovers",
+      "enName": "The Lovers",
+      "cnName": "恋人"
+    },
+    {
+      "key": "the_chariot",
+      "enName": "The Chariot",
+      "cnName": "战车"
+    },
+    {
+      "key": "strength",
+      "enName": "Strength",
+      "cnName": "力量"
+    },
+    {
+      "key": "the_hermit",
+      "enName": "The Hermit",
+      "cnName": "隐士"
+    },
+    {
+      "key": "the_wheel_of_fortune",
+      "enName": "The Wheel of Fortune",
+      "cnName": "命运之轮"
+    },
+    {
+      "key": "justice",
+      "enName": "Justice",
+      "cnName": "正义"
+    },
+    {
+      "key": "the_hanged_man",
+      "enName": "The Hanged Man",
+      "cnName": "倒吊人"
+    },
+    {
+      "key": "death",
+      "enName": "Death",
+      "cnName": "死亡"
+    },
+    {
+      "key": "temperance",
+      "enName": "Temperance",
+      "cnName": "节制"
+    },
+    {
+      "key": "the_devil",
+      "enName": "The Devil",
+      "cnName": "魔鬼"
+    },
+    {
+      "key": "the_tower",
+      "enName": "The Tower",
+      "cnName": "塔"
+    },
+    {
+      "key": "the_star",
+      "enName": "The Star",
+      "cnName": "星"
+    },
+    {
+      "key": "the_moon",
+      "enName": "The Moon",
+      "cnName": "月亮"
+    },
+    {
+      "key": "the_sun",
+      "enName": "The Sun",
+      "cnName": "太阳"
+    },
+    {
+      "key": "judgement",
+      "enName": "Judgement",
+      "cnName": "审判"
+    },
+    {
+      "key": "the_world",
+      "enName": "The World",
+      "cnName": "世界"
+    }
+  ],
+  "minorArcana": {
+    "wands": [
+      {
+        "key": "ace_of_wands",
+        "enName": "Ace of Wands",
+        "cnName": "权杖一",
+        "rank": "Number"
+      },
+      {
+        "key": "two_of_wands",
+        "enName": "Two of Wands",
+        "cnName": "权杖二",
+        "rank": "Number"
+      },
+      {
+        "key": "three_of_wands",
+        "enName": "Three of Wands",
+        "cnName": "权杖三",
+        "rank": "Number"
+      },
+      {
+        "key": "four_of_wands",
+        "enName": "Four of Wands",
+        "cnName": "权杖四",
+        "rank": "Number"
+      },
+      {
+        "key": "five_of_wands",
+        "enName": "Five of Wands",
+        "cnName": "权杖五",
+        "rank": "Number"
+      },
+      {
+        "key": "six_of_wands",
+        "enName": "Six of Wands",
+        "cnName": "权杖六",
+        "rank": "Number"
+      },
+      {
+        "key": "seven_of_wands",
+        "enName": "Seven of Wands",
+        "cnName": "权杖七",
+        "rank": "Number"
+      },
+      {
+        "key": "eight_of_wands",
+        "enName": "Eight of Wands",
+        "cnName": "权杖八",
+        "rank": "Number"
+      },
+      {
+        "key": "nine_of_wands",
+        "enName": "Nine of Wands",
+        "cnName": "权杖九",
+        "rank": "Number"
+      },
+      {
+        "key": "ten_of_wands",
+        "enName": "Ten of Wands",
+        "cnName": "权杖十",
+        "rank": "Number"
+      },
+      {
+        "key": "page_of_wands",
+        "enName": "Page of Wands",
+        "cnName": "权杖侍从",
+        "rank": "Court"
+      },
+      {
+        "key": "knight_of_wands",
+        "enName": "Knight of Wands",
+        "cnName": "权杖骑士",
+        "rank": "Court"
+      },
+      {
+        "key": "queen_of_wands",
+        "enName": "Queen of Wands",
+        "cnName": "权杖女皇",
+        "rank": "Court"
+      },
+      {
+        "key": "king_of_wands",
+        "enName": "King of Wands",
+        "cnName": "权杖国王",
+        "rank": "Court"
+      }
+    ],
+    "cups": [
+      {
+        "key": "ace_of_cups",
+        "enName": "Ace of Cups",
+        "cnName": "圣杯一",
+        "rank": "Number"
+      },
+      {
+        "key": "two_of_cups",
+        "enName": "Two of Cups",
+        "cnName": "圣杯二",
+        "rank": "Number"
+      },
+      {
+        "key": "three_of_cups",
+        "enName": "Three of Cups",
+        "cnName": "圣杯三",
+        "rank": "Number"
+      },
+      {
+        "key": "four_of_cups",
+        "enName": "Four of Cups",
+        "cnName": "圣杯四",
+        "rank": "Number"
+      },
+      {
+        "key": "five_of_cups",
+        "enName": "Five of Cups",
+        "cnName": "圣杯五",
+        "rank": "Number"
+      },
+      {
+        "key": "six_of_cups",
+        "enName": "Six of Cups",
+        "cnName": "圣杯六",
+        "rank": "Number"
+      },
+      {
+        "key": "seven_of_cups",
+        "enName": "Seven of Cups",
+        "cnName": "圣杯七",
+        "rank": "Number"
+      },
+      {
+        "key": "eight_of_cups",
+        "enName": "Eight of Cups",
+        "cnName": "圣杯八",
+        "rank": "Number"
+      },
+      {
+        "key": "nine_of_cups",
+        "enName": "Nine of Cups",
+        "cnName": "圣杯九",
+        "rank": "Number"
+      },
+      {
+        "key": "ten_of_cups",
+        "enName": "Ten of Cups",
+        "cnName": "圣杯十",
+        "rank": "Number"
+      },
+      {
+        "key": "page_of_cups",
+        "enName": "Page of Cups",
+        "cnName": "圣杯侍从",
+        "rank": "Court"
+      },
+      {
+        "key": "knight_of_cups",
+        "enName": "Knight of Cups",
+        "cnName": "圣杯骑士",
+        "rank": "Court"
+      },
+      {
+        "key": "queen_of_cups",
+        "enName": "Queen of Cups",
+        "cnName": "圣杯女王",
+        "rank": "Court"
+      },
+      {
+        "key": "king_of_cups",
+        "enName": "King of Cups",
+        "cnName": "圣杯国王",
+        "rank": "Court"
+      }
+    ],
+    "swords": [
+      {
+        "key": "ace_of_swords",
+        "enName": "Ace of Swords",
+        "cnName": "宝剑一",
+        "rank": "Number"
+      },
+      {
+        "key": "two_of_swords",
+        "enName": "Two of Swords",
+        "cnName": "宝剑二",
+        "rank": "Number"
+      },
+      {
+        "key": "three_of_swords",
+        "enName": "Three of Swords",
+        "cnName": "宝剑三",
+        "rank": "Number"
+      },
+      {
+        "key": "four_of_swords",
+        "enName": "Four of Swords",
+        "cnName": "宝剑四",
+        "rank": "Number"
+      },
+      {
+        "key": "five_of_swords",
+        "enName": "Five of Swords",
+        "cnName": "宝剑五",
+        "rank": "Number"
+      },
+      {
+        "key": "six_of_swords",
+        "enName": "Six of Swords",
+        "cnName": "宝剑六",
+        "rank": "Number"
+      },
+      {
+        "key": "seven_of_swords",
+        "enName": "Seven of Swords",
+        "cnName": "宝剑七",
+        "rank": "Number"
+      },
+      {
+        "key": "eight_of_swords",
+        "enName": "Eight of Swords",
+        "cnName": "宝剑八",
+        "rank": "Number"
+      },
+      {
+        "key": "nine_of_swords",
+        "enName": "Nine of Swords",
+        "cnName": "宝剑九",
+        "rank": "Number"
+      },
+      {
+        "key": "ten_of_swords",
+        "enName": "Ten of Swords",
+        "cnName": "宝剑十",
+        "rank": "Number"
+      },
+      {
+        "key": "page_of_swords",
+        "enName": "Page of Swords",
+        "cnName": "宝剑侍从",
+        "rank": "Court"
+      },
+      {
+        "key": "knight_of_swords",
+        "enName": "Knight of Swords",
+        "cnName": "宝剑骑士",
+        "rank": "Court"
+      },
+      {
+        "key": "queen_of_swords",
+        "enName": "Queen of Swords",
+        "cnName": "宝剑女皇",
+        "rank": "Court"
+      },
+      {
+        "key": "king_of_swords",
+        "enName": "King of Swords",
+        "cnName": "宝剑国王",
+        "rank": "Court"
+      }
+    ],
+    "pentacles": [
+      {
+        "key": "ace_of_pentacles",
+        "enName": "Ace of Pentacles",
+        "cnName": "星币一",
+        "rank": "Number"
+      },
+      {
+        "key": "two_of_pentacles",
+        "enName": "Two of Pentacles",
+        "cnName": "星币二",
+        "rank": "Number"
+      },
+      {
+        "key": "three_of_pentacles",
+        "enName": "Three of Pentacles",
+        "cnName": "星币三",
+        "rank": "Number"
+      },
+      {
+        "key": "four_of_pentacles",
+        "enName": "Four of Pentacles",
+        "cnName": "星币四",
+        "rank": "Number"
+      },
+      {
+        "key": "five_of_pentacles",
+        "enName": "Five of Pentacles",
+        "cnName": "星币五",
+        "rank": "Number"
+      },
+      {
+        "key": "six_of_pentacles",
+        "enName": "Six of Pentacles",
+        "cnName": "星币六",
+        "rank": "Number"
+      },
+      {
+        "key": "seven_of_pentacles",
+        "enName": "Seven of Pentacles",
+        "cnName": "星币七",
+        "rank": "Number"
+      },
+      {
+        "key": "eight_of_pentacles",
+        "enName": "Eight of Pentacles",
+        "cnName": "星币八",
+        "rank": "Number"
+      },
+      {
+        "key": "nine_of_pentacles",
+        "enName": "Nine of Pentacles",
+        "cnName": "星币九",
+        "rank": "Number"
+      },
+      {
+        "key": "ten_of_pentacles",
+        "enName": "Ten of Pentacles",
+        "cnName": "星币十",
+        "rank": "Number"
+      },
+      {
+        "key": "page_of_pentacles",
+        "enName": "Page of Pentacles",
+        "cnName": "星币侍从",
+        "rank": "Court"
+      },
+      {
+        "key": "knight_of_pentacles",
+        "enName": "Knight of Pentacles",
+        "cnName": "星币骑士",
+        "rank": "Court"
+      },
+      {
+        "key": "queen_of_pentacles",
+        "enName": "Queen of Pentacles",
+        "cnName": "星币女皇",
+        "rank": "Court"
+      },
+      {
+        "key": "king_of_pentacles",
+        "enName": "King of Pentacles",
+        "cnName": "星币国王",
+        "rank": "Court"
+      }
+    ]
+  },
+  "allCards": [
+    {
+      "key": "the_fool",
+      "enName": "The Fool",
+      "cnName": "愚人",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_magician",
+      "enName": "The Magician",
+      "cnName": "魔术师",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_high_priestess",
+      "enName": "The High Priestess",
+      "cnName": "女祭司",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_empress",
+      "enName": "The Empress",
+      "cnName": "女皇",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_emperor",
+      "enName": "The Emperor",
+      "cnName": "皇帝",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_hierophant",
+      "enName": "The Hierophant",
+      "cnName": "教皇",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_lovers",
+      "enName": "The Lovers",
+      "cnName": "恋人",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_chariot",
+      "enName": "The Chariot",
+      "cnName": "战车",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "strength",
+      "enName": "Strength",
+      "cnName": "力量",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_hermit",
+      "enName": "The Hermit",
+      "cnName": "隐士",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_wheel_of_fortune",
+      "enName": "The Wheel of Fortune",
+      "cnName": "命运之轮",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "justice",
+      "enName": "Justice",
+      "cnName": "正义",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_hanged_man",
+      "enName": "The Hanged Man",
+      "cnName": "倒吊人",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "death",
+      "enName": "Death",
+      "cnName": "死亡",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "temperance",
+      "enName": "Temperance",
+      "cnName": "节制",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_devil",
+      "enName": "The Devil",
+      "cnName": "魔鬼",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_tower",
+      "enName": "The Tower",
+      "cnName": "塔",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_star",
+      "enName": "The Star",
+      "cnName": "星",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_moon",
+      "enName": "The Moon",
+      "cnName": "月亮",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_sun",
+      "enName": "The Sun",
+      "cnName": "太阳",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "judgement",
+      "enName": "Judgement",
+      "cnName": "审判",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "the_world",
+      "enName": "The World",
+      "cnName": "世界",
+      "arcana": "Major",
+      "suit": null,
+      "rank": null
+    },
+    {
+      "key": "ace_of_cups",
+      "enName": "Ace of Cups",
+      "cnName": "圣杯一",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Number"
+    },
+    {
+      "key": "two_of_cups",
+      "enName": "Two of Cups",
+      "cnName": "圣杯二",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Number"
+    },
+    {
+      "key": "three_of_cups",
+      "enName": "Three of Cups",
+      "cnName": "圣杯三",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Number"
+    },
+    {
+      "key": "four_of_cups",
+      "enName": "Four of Cups",
+      "cnName": "圣杯四",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Number"
+    },
+    {
+      "key": "five_of_cups",
+      "enName": "Five of Cups",
+      "cnName": "圣杯五",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Number"
+    },
+    {
+      "key": "six_of_cups",
+      "enName": "Six of Cups",
+      "cnName": "圣杯六",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Number"
+    },
+    {
+      "key": "seven_of_cups",
+      "enName": "Seven of Cups",
+      "cnName": "圣杯七",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Number"
+    },
+    {
+      "key": "eight_of_cups",
+      "enName": "Eight of Cups",
+      "cnName": "圣杯八",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Number"
+    },
+    {
+      "key": "nine_of_cups",
+      "enName": "Nine of Cups",
+      "cnName": "圣杯九",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Number"
+    },
+    {
+      "key": "ten_of_cups",
+      "enName": "Ten of Cups",
+      "cnName": "圣杯十",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Number"
+    },
+    {
+      "key": "page_of_cups",
+      "enName": "Page of Cups",
+      "cnName": "圣杯侍从",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Court"
+    },
+    {
+      "key": "knight_of_cups",
+      "enName": "Knight of Cups",
+      "cnName": "圣杯骑士",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Court"
+    },
+    {
+      "key": "queen_of_cups",
+      "enName": "Queen of Cups",
+      "cnName": "圣杯女王",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Court"
+    },
+    {
+      "key": "king_of_cups",
+      "enName": "King of Cups",
+      "cnName": "圣杯国王",
+      "arcana": "Minor",
+      "suit": "Cups",
+      "rank": "Court"
+    },
+    {
+      "key": "ace_of_pentacles",
+      "enName": "Ace of Pentacles",
+      "cnName": "星币一",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Number"
+    },
+    {
+      "key": "two_of_pentacles",
+      "enName": "Two of Pentacles",
+      "cnName": "星币二",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Number"
+    },
+    {
+      "key": "three_of_pentacles",
+      "enName": "Three of Pentacles",
+      "cnName": "星币三",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Number"
+    },
+    {
+      "key": "four_of_pentacles",
+      "enName": "Four of Pentacles",
+      "cnName": "星币四",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Number"
+    },
+    {
+      "key": "five_of_pentacles",
+      "enName": "Five of Pentacles",
+      "cnName": "星币五",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Number"
+    },
+    {
+      "key": "six_of_pentacles",
+      "enName": "Six of Pentacles",
+      "cnName": "星币六",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Number"
+    },
+    {
+      "key": "seven_of_pentacles",
+      "enName": "Seven of Pentacles",
+      "cnName": "星币七",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Number"
+    },
+    {
+      "key": "eight_of_pentacles",
+      "enName": "Eight of Pentacles",
+      "cnName": "星币八",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Number"
+    },
+    {
+      "key": "nine_of_pentacles",
+      "enName": "Nine of Pentacles",
+      "cnName": "星币九",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Number"
+    },
+    {
+      "key": "ten_of_pentacles",
+      "enName": "Ten of Pentacles",
+      "cnName": "星币十",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Number"
+    },
+    {
+      "key": "page_of_pentacles",
+      "enName": "Page of Pentacles",
+      "cnName": "星币侍从",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Court"
+    },
+    {
+      "key": "knight_of_pentacles",
+      "enName": "Knight of Pentacles",
+      "cnName": "星币骑士",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Court"
+    },
+    {
+      "key": "queen_of_pentacles",
+      "enName": "Queen of Pentacles",
+      "cnName": "星币女皇",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Court"
+    },
+    {
+      "key": "king_of_pentacles",
+      "enName": "King of Pentacles",
+      "cnName": "星币国王",
+      "arcana": "Minor",
+      "suit": "Pentacles",
+      "rank": "Court"
+    },
+    {
+      "key": "ace_of_swords",
+      "enName": "Ace of Swords",
+      "cnName": "宝剑一",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Number"
+    },
+    {
+      "key": "two_of_swords",
+      "enName": "Two of Swords",
+      "cnName": "宝剑二",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Number"
+    },
+    {
+      "key": "three_of_swords",
+      "enName": "Three of Swords",
+      "cnName": "宝剑三",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Number"
+    },
+    {
+      "key": "four_of_swords",
+      "enName": "Four of Swords",
+      "cnName": "宝剑四",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Number"
+    },
+    {
+      "key": "five_of_swords",
+      "enName": "Five of Swords",
+      "cnName": "宝剑五",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Number"
+    },
+    {
+      "key": "six_of_swords",
+      "enName": "Six of Swords",
+      "cnName": "宝剑六",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Number"
+    },
+    {
+      "key": "seven_of_swords",
+      "enName": "Seven of Swords",
+      "cnName": "宝剑七",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Number"
+    },
+    {
+      "key": "eight_of_swords",
+      "enName": "Eight of Swords",
+      "cnName": "宝剑八",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Number"
+    },
+    {
+      "key": "nine_of_swords",
+      "enName": "Nine of Swords",
+      "cnName": "宝剑九",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Number"
+    },
+    {
+      "key": "ten_of_swords",
+      "enName": "Ten of Swords",
+      "cnName": "宝剑十",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Number"
+    },
+    {
+      "key": "page_of_swords",
+      "enName": "Page of Swords",
+      "cnName": "宝剑侍从",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Court"
+    },
+    {
+      "key": "knight_of_swords",
+      "enName": "Knight of Swords",
+      "cnName": "宝剑骑士",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Court"
+    },
+    {
+      "key": "queen_of_swords",
+      "enName": "Queen of Swords",
+      "cnName": "宝剑女皇",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Court"
+    },
+    {
+      "key": "king_of_swords",
+      "enName": "King of Swords",
+      "cnName": "宝剑国王",
+      "arcana": "Minor",
+      "suit": "Swords",
+      "rank": "Court"
+    },
+    {
+      "key": "ace_of_wands",
+      "enName": "Ace of Wands",
+      "cnName": "权杖一",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Number"
+    },
+    {
+      "key": "two_of_wands",
+      "enName": "Two of Wands",
+      "cnName": "权杖二",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Number"
+    },
+    {
+      "key": "three_of_wands",
+      "enName": "Three of Wands",
+      "cnName": "权杖三",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Number"
+    },
+    {
+      "key": "four_of_wands",
+      "enName": "Four of Wands",
+      "cnName": "权杖四",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Number"
+    },
+    {
+      "key": "five_of_wands",
+      "enName": "Five of Wands",
+      "cnName": "权杖五",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Number"
+    },
+    {
+      "key": "six_of_wands",
+      "enName": "Six of Wands",
+      "cnName": "权杖六",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Number"
+    },
+    {
+      "key": "seven_of_wands",
+      "enName": "Seven of Wands",
+      "cnName": "权杖七",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Number"
+    },
+    {
+      "key": "eight_of_wands",
+      "enName": "Eight of Wands",
+      "cnName": "权杖八",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Number"
+    },
+    {
+      "key": "nine_of_wands",
+      "enName": "Nine of Wands",
+      "cnName": "权杖九",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Number"
+    },
+    {
+      "key": "ten_of_wands",
+      "enName": "Ten of Wands",
+      "cnName": "权杖十",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Number"
+    },
+    {
+      "key": "page_of_wands",
+      "enName": "Page of Wands",
+      "cnName": "权杖侍从",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Court"
+    },
+    {
+      "key": "knight_of_wands",
+      "enName": "Knight of Wands",
+      "cnName": "权杖骑士",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Court"
+    },
+    {
+      "key": "queen_of_wands",
+      "enName": "Queen of Wands",
+      "cnName": "权杖女皇",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Court"
+    },
+    {
+      "key": "king_of_wands",
+      "enName": "King of Wands",
+      "cnName": "权杖国王",
+      "arcana": "Minor",
+      "suit": "Wands",
+      "rank": "Court"
+    }
+  ]
+}

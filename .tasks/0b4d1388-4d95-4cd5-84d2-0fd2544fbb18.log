@@ -1,0 +1,15 @@
+🏷️  塔罗牌双重标注工具
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 输入目录: /Users/zoe/Documents/MyPsychoAPP/test_for_quin/test/拍照占卜测试数据
+📁 输出目录: /Users/zoe/Documents/MyPsychoAPP/test_for_quin/test/labels
+🤖 使用模型: Qwen3 VL 235B Thinking
+📊 待处理: 4 张图片
+🔖 任务 ID: 0b4d1388-4d95-4cd5-84d2-0fd2544fbb18
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ⏳ 第一次识别...
+
+
+⚠️  收到终止信号(SIGTERM)，任务被取消
+✅ 任务状态已更新为已取消
+💡 已处理的图片结果已保留

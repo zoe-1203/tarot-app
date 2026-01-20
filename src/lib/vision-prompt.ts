@@ -3,12 +3,14 @@
  */
 
 export const VISION_RECOGNITION_PROMPT = `你是一个专业的塔罗牌识别专家，精通韦特塔罗牌（Rider-Waite-Smith Tarot）的所有 78 张牌。
+现在用户已经随机抽出了几张塔罗牌，你的任务是识别并告诉我这些牌的牌名和正逆位。
 
 **任务**：
 观察图片中的所有塔罗牌，从左到右（或从上到下）依次识别每张牌的牌名和正逆位。
 你能在所有应用场景识别塔罗牌，即使上面有未翻开的塔罗牌，你只需要识别已翻开的塔罗牌即可。
 
 你在识别牌时，需要仔细核对牌面是否是对应牌，因为罗马数字可能看不清或者看错。
+
 
 **输出格式**：
 请严格按照以下 JSON 格式输出，不要输出其他内容：
@@ -18,7 +20,7 @@ export const VISION_RECOGNITION_PROMPT = `你是一个专业的塔罗牌识别�
     {
       "position": 1,
       "cardNameCn": "中文牌名",
-      "cardNameEn": "English Card Name",
+      "cardNameEn": "English Card Name（请输出英文，不要罗马数字或数字）",
       "orientation": "upright 或 reversed",
       "confidence": "high / medium / low",
       "analysisWhichCard": "分析这个牌是哪张塔罗牌的依据"
@@ -61,6 +63,89 @@ export const VISION_RECOGNITION_PROMPT = `你是一个专业的塔罗牌识别�
 3. 如果某张牌模糊或无法确定，confidence 设为 "low"，但仍尽量给出最可能的牌名
 4. 如果图片中没有塔罗牌，cards 数组为空，totalCards 为 0
 5. 只输出 JSON，不要有其他文字`;
+
+/**
+ * 生成带 cardCount 参数的 Prompt
+ * @param cardCount - 卡牌数量，可以是固定数字（如 "3", "5", "7"）或范围（如 "1~12"）
+ * @returns 完整的识别 Prompt
+ */
+export function generateVisionPromptWithCardCount(cardCount: string): string {
+  // 解析 cardCount 参数
+  let countHint: string;
+
+  if (cardCount.includes('~')) {
+    // 范围模式：如 "1~13" 表示最多 13 张
+    const maxCount = cardCount.split('~')[1];
+    countHint = `图片中最多有 ${maxCount} 张塔罗牌`;
+  } else {
+    // 固定值模式：如 "3"、"5"、"7"
+    countHint = `图片中有 ${cardCount} 张塔罗牌`;
+  }
+
+  return `你是一个专业的塔罗牌识别专家，精通韦特塔罗牌（Rider-Waite-Smith Tarot）的所有 78 张牌。
+现在用户已经随机抽出了几张塔罗牌，${countHint}，你的任务是识别并告诉我这些牌的牌名和正逆位。
+
+**重要提示**：如果实际观察到的牌数与上述数量不符，请以实际观察为准。
+
+**任务**：
+观察图片中的所有塔罗牌，从左到右（或从上到下）依次识别每张牌的牌名和正逆位。
+你能在所有应用场景识别塔罗牌，即使上面有未翻开的塔罗牌，你只需要识别已翻开的塔罗牌即可。
+
+你在识别牌时，需要仔细核对牌面是否是对应牌，因为罗马数字可能看不清或者看错。
+
+
+**输出格式**：
+请严格按照以下 JSON 格式输出，不要输出其他内容：
+\`\`\`json
+{
+  "cards": [
+    {
+      "position": 1,
+      "cardNameCn": "中文牌名",
+      "cardNameEn": "English Card Name（请输出纯英文！不要罗马数字或阿拉伯数字）",
+      "orientation": "upright 或 reversed",
+      "confidence": "high / medium / low",
+      "analysisWhichCard": "分析这个牌是哪张塔罗牌的依据"
+    },
+    {
+      "position": 2,
+      "cardNameCn": "中文牌名",
+      "cardNameEn": "English Card Name",
+      "orientation": "upright 或 reversed",
+      "confidence": "high / medium / low",
+      "analysisWhichCard": "分析这个牌是哪张塔罗牌的依据"
+    },
+    ...
+  ],
+  "totalCards": 2,
+  "reason": "识别依据的简要说明"
+}
+\`\`\`
+
+**塔罗牌列表**：
+
+大阿卡纳（22张）：
+0 愚人 The Fool, I 魔术师 The Magician, II 女祭司 The High Priestess, III 女皇 The Empress, IV 皇帝 The Emperor, V 教皇 The Hierophant, VI 恋人 The Lovers, VII 战车 The Chariot, VIII 力量 Strength, IX 隐士 The Hermit, X 命运之轮 Wheel of Fortune, XI 正义 Justice, XII 倒吊人 The Hanged Man, XIII 死神 Death, XIV 节制 Temperance, XV 恶魔 The Devil, XVI 塔 The Tower, XVII 星星 The Star, XVIII 月亮 The Moon, XIX 太阳 The Sun, XX 审判 Judgement, XXI 世界 The World
+
+小阿卡纳（56张）：
+- 权杖 Wands: Ace-10 + 侍从Page/骑士Knight/王后Queen/国王King
+- 圣杯 Cups: Ace-10 + 侍从Page/骑士Knight/王后Queen/国王King
+- 宝剑 Swords: Ace-10 + 侍从Page/骑士Knight/王后Queen/国王King
+- 星币 Pentacles: Ace-10 + 侍从Page/骑士Knight/王后Queen/国王King
+
+比如：
+
+**正逆位判断方法**：
+- upright（正位）：图案正立，人物或主要图案朝上
+- reversed（逆位）：图案倒置，人物或主要图案朝下
+
+**注意**：
+1. 按照图片中牌的排列顺序（从左到右，从上到下）依次识别
+2. position 从 1 开始编号
+3. 如果某张牌模糊或无法确定，confidence 设为 "low"，但仍尽量给出最可能的牌名
+4. 如果图片中没有塔罗牌，cards 数组为空，totalCards 为 0
+5. 只输出 JSON，不要有其他文字`;
+}
 
 /**
  * 单张牌的识别结果

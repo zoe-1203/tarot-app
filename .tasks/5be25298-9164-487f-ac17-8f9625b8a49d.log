@@ -1,0 +1,34 @@
+🏷️  塔罗牌双重标注工具
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 输入目录: /Users/zoe/Documents/MyPsychoAPP/test_for_quin/test/拍照占卜测试数据
+📁 输出目录: /Users/zoe/Documents/MyPsychoAPP/test_for_quin/test/labels
+🤖 使用模型: Qwen3 VL 235B Thinking
+📊 待处理: 26 张图片
+🔖 任务 ID: 5be25298-9164-487f-ac17-8f9625b8a49d
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ⏳ 第一次识别...
+[qwen/qwen3-vl-235b-a22b-thinking] 重试 1/2，等待 1秒...
+[qwen/qwen3-vl-235b-a22b-thinking] 重试 2/2，等待 2秒...
+❌ IMG_0318.jpg 处理失败: Error: qwen/qwen3-vl-235b-a22b-thinking: fetch failed
+    at callOpenRouterVisionModel (/Users/zoe/Documents/MyPsychoAPP/test_for_quin/tarot-app/src/lib/vision-api.ts:79:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async callVisionModelWithRetry (/Users/zoe/Documents/MyPsychoAPP/test_for_quin/tarot-app/src/lib/vision-api.ts:187:14)
+    at async processImageDual (/Users/zoe/Documents/MyPsychoAPP/test_for_quin/tarot-app/scripts/annotate-dual.ts:145:17)
+    at async main (/Users/zoe/Documents/MyPsychoAPP/test_for_quin/tarot-app/scripts/annotate-dual.ts:303:22)
+  ⏳ 第一次识别...
+[qwen/qwen3-vl-235b-a22b-thinking] 重试 1/2，等待 1秒...
+[qwen/qwen3-vl-235b-a22b-thinking] 重试 2/2，等待 2秒...
+❌ IMG_0326.JPG 处理失败: Error: qwen/qwen3-vl-235b-a22b-thinking: fetch failed
+    at callOpenRouterVisionModel (/Users/zoe/Documents/MyPsychoAPP/test_for_quin/tarot-app/src/lib/vision-api.ts:79:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async callVisionModelWithRetry (/Users/zoe/Documents/MyPsychoAPP/test_for_quin/tarot-app/src/lib/vision-api.ts:187:14)
+    at async processImageDual (/Users/zoe/Documents/MyPsychoAPP/test_for_quin/tarot-app/scripts/annotate-dual.ts:145:17)
+    at async main (/Users/zoe/Documents/MyPsychoAPP/test_for_quin/tarot-app/scripts/annotate-dual.ts:303:22)
+  ⏳ 第一次识别...
+[qwen/qwen3-vl-235b-a22b-thinking] 重试 1/2，等待 1秒...
+
+
+⚠️  收到终止信号(SIGTERM)，任务被取消
+✅ 任务状态已更新为已取消
+💡 已处理的图片结果已保留

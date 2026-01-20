@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { VISION_MODELS, VisionModelConfig } from '@/lib/vision-models';
+import { BatchAnnotationPanel } from '@/components/vision/BatchAnnotationPanel';
+import { ManualReviewPanel } from '@/components/vision/ManualReviewPanel';
 
 // 单张牌的识别结果
 interface CardRecognitionResult {
@@ -869,6 +871,9 @@ async function compressImage(file: File, maxSizeMB: number = 3): Promise<File> {
 
 // 主页面
 export default function VisionPage() {
+  // 标签页状态
+  const [activeTab, setActiveTab] = useState<'recognize' | 'batch-test' | 'annotate' | 'review'>('recognize');
+
   const [selectedModels, setSelectedModels] = useState<string[]>([
     'qwen/qwen-vl-plus',
   ]);
@@ -1288,8 +1293,56 @@ export default function VisionPage() {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* 左侧：多图片识别 */}
+        {/* 标签页导航 */}
+        <div className="mb-6 border-b border-gray-200">
+          <nav className="flex gap-8" aria-label="Tabs">
+            <button
+              onClick={() => setActiveTab('recognize')}
+              className={`pb-4 px-1 font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'recognize'
+                  ? 'border-indigo-600 text-indigo-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              图片识别
+            </button>
+            <button
+              onClick={() => setActiveTab('batch-test')}
+              className={`pb-4 px-1 font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'batch-test'
+                  ? 'border-indigo-600 text-indigo-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              批量测试
+            </button>
+            <button
+              onClick={() => setActiveTab('annotate')}
+              className={`pb-4 px-1 font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'annotate'
+                  ? 'border-indigo-600 text-indigo-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              批量标注
+            </button>
+            <button
+              onClick={() => setActiveTab('review')}
+              className={`pb-4 px-1 font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'review'
+                  ? 'border-indigo-600 text-indigo-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              人工校对
+            </button>
+          </nav>
+        </div>
+
+        {/* 图片识别标签页 */}
+        {activeTab === 'recognize' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            {/* 左侧：多图片识别 */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
             <h2 className="text-xl font-semibold text-gray-900 mb-6">
               图片识别
@@ -1358,9 +1411,32 @@ export default function VisionPage() {
             progress={batchProgress}
           />
         </div>
+        )}
+
+        {/* 批量测试标签页 */}
+        {activeTab === 'batch-test' && (
+          <BatchTestPanel
+            selectedModels={selectedModels}
+            testInfo={testInfo}
+            onRunBatchTest={handleBatchTest}
+            batchResults={batchResults}
+            isLoading={batchLoading}
+            progress={batchProgress}
+          />
+        )}
+
+        {/* 批量标注标签页 */}
+        {activeTab === 'annotate' && (
+          <BatchAnnotationPanel />
+        )}
+
+        {/* 人工校对标签页 */}
+        {activeTab === 'review' && (
+          <ManualReviewPanel />
+        )}
 
         {/* 多图片识别结果展示 */}
-        {images.some(img => img.status === 'done' || img.status === 'error') && (
+        {activeTab === 'recognize' && images.some(img => img.status === 'done' || img.status === 'error') && (
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-semibold text-gray-900">
