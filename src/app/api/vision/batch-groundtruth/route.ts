@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { VISION_MODELS } from '@/lib/vision-models';
-import { callVisionModelWithRetry } from '@/lib/vision-api';
-import { VISION_RECOGNITION_PROMPT, generateVisionPromptWithCardCount, parseVisionJsonResponse, CardRecognitionResult } from '@/lib/vision-prompt';
+import { callVisionModelWithRetry, getPromptForModel } from '@/lib/vision-api';
+import { parseVisionJsonResponse, CardRecognitionResult } from '@/lib/vision-prompt';
 import fs from 'fs';
 import path from 'path';
 
@@ -286,7 +286,7 @@ export async function POST(request: Request) {
             cardCountParam = expected.totalCards.toString();
           }
 
-          const promptWithCardCount = generateVisionPromptWithCardCount(cardCountParam);
+          const promptWithCardCount = getPromptForModel(modelId, cardCountParam);
 
           const { response, time } = await callVisionModelWithRetry(
             base64,

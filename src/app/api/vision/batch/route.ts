@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { VISION_MODELS } from '@/lib/vision-models';
-import { VISION_RECOGNITION_PROMPT, parseVisionJsonResponse, CardRecognitionResult } from '@/lib/vision-prompt';
+import { parseVisionJsonResponse, CardRecognitionResult } from '@/lib/vision-prompt';
+import { getPromptForModel } from '@/lib/vision-api';
 import fs from 'fs';
 import path from 'path';
 
@@ -112,7 +113,7 @@ async function callOpenRouterVisionModel(
             content: [
               {
                 type: 'text',
-                text: VISION_RECOGNITION_PROMPT,
+                text: getPromptForModel(modelId),
               },
               {
                 type: 'image_url',

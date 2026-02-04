@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { VISION_MODELS } from '@/lib/vision-models';
-import { VISION_RECOGNITION_PROMPT, parseVisionJsonResponse, CardRecognitionResult } from '@/lib/vision-prompt';
-import { callVisionModelWithRetry } from '@/lib/vision-api';
+import { parseVisionJsonResponse, CardRecognitionResult } from '@/lib/vision-prompt';
+import { callVisionModelWithRetry, getPromptForModel, TokenUsage } from '@/lib/vision-api';
 
 interface VisionRequest {
   imageBase64: string;
@@ -18,6 +18,7 @@ interface VisionModelResult {
   reason: string;
   rawResponse: string;
   responseTime: number;
+  usage?: TokenUsage;
   error?: string;
 }
 
@@ -61,11 +62,14 @@ export async function POST(request: Request) {
       const modelName = modelConfig?.name || modelId;
 
       try {
-        const { response, time } = await callVisionModelWithRetry(
+        // 使用动态 Prompt 选择（根据模型配置自动选择中文或英文）
+        const prompt = getPromptForModel(modelId);
+
+        const { response, time, usage } = await callVisionModelWithRetry(
           imageBase64,
           mimeType,
           modelId,
-          VISION_RECOGNITION_PROMPT
+          prompt
         );
 
         const parsed = parseVisionJsonResponse(response);
@@ -78,6 +82,7 @@ export async function POST(request: Request) {
             ...parsed,
             rawResponse: response,
             responseTime: time,
+            usage,
           },
         };
       } catch (error: unknown) {

@@ -1,5 +1,6 @@
 /**
- * 塔罗牌图片识别 Prompt（支持多张牌）
+ * @deprecated 已废弃，请使用 generateVisionPromptWithCardCount() 替代
+ * 塔罗牌图片识别 Prompt（支持多张牌）- 中文版
  */
 
 export const VISION_RECOGNITION_PROMPT = `你是一个专业的塔罗牌识别专家，精通韦特塔罗牌（Rider-Waite-Smith Tarot）的所有 78 张牌。
@@ -74,7 +75,7 @@ export function generateVisionPromptWithCardCount(cardCount: string): string {
   let countHint: string;
 
   if (cardCount.includes('~')) {
-    // 范围模式：如 "1~13" 表示最多 13 张
+    // 范围模式：如 "1~13" 表示最多 13 张//改成最多22张
     const maxCount = cardCount.split('~')[1];
     countHint = `图片中最多有 ${maxCount} 张塔罗牌`;
   } else {
@@ -280,4 +281,150 @@ export function parseVisionJsonResponse(response: string): VisionRecognitionResu
     totalCards: cards.length,
     reason: cards.length === 0 ? 'Failed to parse response' : 'Parsed from text fallback',
   };
+}
+
+/**
+ * @deprecated 已废弃，请使用 generateVisionPromptWithCardCountEN() 替代
+ * 塔罗牌图片识别 Prompt（支持多张牌）- 英文版
+ * English version for overseas models (Gemini, GPT-4, etc.)
+ */
+
+export const VISION_RECOGNITION_PROMPT_EN = `You are a professional Tarot card recognition expert, proficient in all 78 cards of the Rider-Waite-Smith Tarot.
+
+The user has randomly drawn several Tarot cards. Your task is to identify the card names and their orientations (upright or reversed).
+
+**Task**:
+Observe all Tarot cards in the image and identify each card's name and orientation sequentially from left to right (or top to bottom).
+You can recognize Tarot cards in all application scenarios. Even if there are unturned cards in the image, you only need to identify the visible cards.
+
+When identifying cards, carefully check whether the English text at the top or bottom of each card is upright or inverted to determine orientation.
+
+**Output Format**:
+Please strictly follow this JSON format and output nothing else:
+\`\`\`json
+{
+  "cards": [
+    {
+      "position": 1,
+      "cardNameCn": "Chinese card name",
+      "cardNameEn": "English Card Name (output pure English text, NO Roman numerals or Arabic numbers)",
+      "orientation": "upright or reversed",
+      "confidence": "high / medium / low",
+      "analysisWhichCard": "Reasoning for identifying this specific card"
+    },
+    {
+      "position": 2,
+      "cardNameCn": "Chinese card name",
+      "cardNameEn": "English Card Name",
+      "orientation": "upright or reversed",
+      "confidence": "high / medium / low",
+      "analysisWhichCard": "Reasoning for identifying this specific card"
+    },
+    ...
+  ],
+  "totalCards": 2,
+  "reason": "Brief explanation of identification rationale"
+}
+\`\`\`
+
+**Tarot Card List**:
+
+Major Arcana (22 cards):
+0 The Fool, I The Magician, II The High Priestess, III The Empress, IV The Emperor, V The Hierophant, VI The Lovers, VII The Chariot, VIII Strength, IX The Hermit, X Wheel of Fortune, XI Justice, XII The Hanged Man, XIII Death, XIV Temperance, XV The Devil, XVI The Tower, XVII The Star, XVIII The Moon, XIX The Sun, XX Judgement, XXI The World
+
+Minor Arcana (56 cards):
+- Wands: Ace through Ten + Page/Knight/Queen/King
+- Cups: Ace through Ten + Page/Knight/Queen/King
+- Swords: Ace through Ten + Page/Knight/Queen/King
+- Pentacles: Ace through Ten + Page/Knight/Queen/King
+
+**Orientation Determination Method**:
+- upright: Image is right-side up, figures or main imagery face upward
+- reversed: Image is upside down, figures or main imagery face downward
+
+**Important Notes**:
+1. Identify cards according to their arrangement in the image (left to right, top to bottom)
+2. Position numbering starts from 1
+3. If a card is blurry or uncertain, set confidence to "low" but still provide the most likely card name
+4. If there are no Tarot cards in the image, the cards array should be empty and totalCards should be 0
+5. Output only JSON, no additional text`;
+
+/**
+ * 生成带 cardCount 参数的 Prompt - 英文版
+ * @param cardCount - 卡牌数量，可以是固定数字（如 "3", "5", "7"）或范围（如 "1~12"）
+ * @returns 完整的识别 Prompt（英文）
+ */
+export function generateVisionPromptWithCardCountEN(cardCount: string): string {
+  // 解析 cardCount 参数
+  let countHint: string;
+
+  if (cardCount.includes('~')) {
+    // 范围模式：如 "1~13" 表示最多 13 张
+    const maxCount = cardCount.split('~')[1];
+    countHint = `The image contains at most ${maxCount} Tarot cards`;
+  } else {
+    // 固定值模式：如 "3"、"5"、"7"
+    countHint = `The image contains ${cardCount} Tarot cards`;
+  }
+
+  return `You are a professional Tarot card recognition expert, proficient in all 78 cards of the Rider-Waite-Smith Tarot.
+The user has randomly drawn several Tarot cards. ${countHint}. Your task is to identify the card names and their orientations (upright or reversed).
+
+**Important Note**: If the actual number of cards observed differs from the count mentioned above, please prioritize what you observe.
+
+**Task**:
+Observe all Tarot cards in the image and identify each card's name and orientation sequentially from left to right (or top to bottom).
+You can recognize Tarot cards in all application scenarios. Even if there are unturned cards in the image, you only need to identify the visible cards.
+
+When identifying cards, carefully verify the card face matches the expected card, as Roman numerals may be unclear or misread.
+
+**Output Format**:
+Please strictly follow this JSON format and output nothing else:
+\`\`\`json
+{
+  "cards": [
+    {
+      "position": 1,
+      "cardNameCn": "Chinese card name",
+      "cardNameEn": "English Card Name (output pure English text! NO Roman numerals or Arabic numbers)",
+      "orientation": "upright or reversed",
+      "confidence": "high / medium / low",
+      "analysisWhichCard": "Reasoning for identifying this specific card"
+    },
+    {
+      "position": 2,
+      "cardNameCn": "Chinese card name",
+      "cardNameEn": "English Card Name",
+      "orientation": "upright or reversed",
+      "confidence": "high / medium / low",
+      "analysisWhichCard": "Reasoning for identifying this specific card"
+    },
+    ...
+  ],
+  "totalCards": 2,
+  "reason": "Brief explanation of identification rationale"
+}
+\`\`\`
+
+**Tarot Card List**:
+
+Major Arcana (22 cards):
+0 The Fool, I The Magician, II The High Priestess, III The Empress, IV The Emperor, V The Hierophant, VI The Lovers, VII The Chariot, VIII Strength, IX The Hermit, X Wheel of Fortune, XI Justice, XII The Hanged Man, XIII Death, XIV Temperance, XV The Devil, XVI The Tower, XVII The Star, XVIII The Moon, XIX The Sun, XX Judgement, XXI The World
+
+Minor Arcana (56 cards):
+- Wands: Ace through Ten + Page/Knight/Queen/King
+- Cups: Ace through Ten + Page/Knight/Queen/King
+- Swords: Ace through Ten + Page/Knight/Queen/King
+- Pentacles: Ace through Ten + Page/Knight/Queen/King
+
+**Orientation Determination Method**:
+- upright: Image is right-side up, figures or main imagery face upward
+- reversed: Image is upside down, figures or main imagery face downward
+
+**Important Notes**:
+1. Identify cards according to their arrangement in the image (left to right, top to bottom)
+2. Position numbering starts from 1
+3. If a card is blurry or uncertain, set confidence to "low" but still provide the most likely card name
+4. If there are no Tarot cards in the image, the cards array should be empty and totalCards should be 0
+5. Output only JSON, no additional text`;
 }
